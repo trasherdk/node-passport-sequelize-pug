@@ -1,10 +1,11 @@
 const path = require('path');
+require('dotenv').config();
+require('./config')
 const express = require('express');
 const app = express();
 const passport = require('passport');
 const session = require('express-session');
 const bodyParser = require('body-parser');
-const env = require('dotenv').config();
 const exphbs = require('express-handlebars');
 
 // BodyParser
@@ -14,10 +15,10 @@ app.use(bodyParser.json());
 // Passport
 app.use(
   session({
-	  	secret: 'rHUyjs6RmVOD06OdOTsVAyUUCxVXaWci',
-	  	resave: true,
-	  	saveUninitialized: true
-  	})
+    secret: process.env.SESSION_SECRET,
+    resave: true,
+    saveUninitialized: true
+  })
 ); // session secret
 
 app.use(passport.initialize());
@@ -54,14 +55,14 @@ require('./config/passport/passport.js')(passport, models.user);
 // Sync Database
 models.sequelize
   .sync()
-  .then(function() {
+  .then(function () {
     console.log('Database Connected');
 
-    app.listen(3000, function(err) {
+    app.listen(3000, function (err) {
       if (!err) console.log('Connected at http://localhost:3000');
       else console.log(err);
     });
   })
-  .catch(function(err) {
+  .catch(function (err) {
     console.log(err, 'Error on Database Sync. Please try again!');
   });
