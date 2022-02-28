@@ -1,5 +1,5 @@
 //load bcrypt
-const bCrypt = require('bcrypt-nodejs');
+const bCrypt = require('bcrypt');
 
 module.exports = (passport, user) => {
   const User = user;
@@ -29,7 +29,7 @@ module.exports = (passport, user) => {
         passReqToCallback: true // allows us to pass back the entire request to the callback
       },
 
-      function(req, email, password, done) {
+      function (req, email, password, done) {
         var generateHash = password => {
           return bCrypt.hashSync(password, bCrypt.genSaltSync(8), null);
         };
@@ -75,7 +75,7 @@ module.exports = (passport, user) => {
         passReqToCallback: true // allows us to pass back the entire request to the callback
       },
 
-      function(req, email, password, done) {
+      function (req, email, password, done) {
         var User = user;
 
         var isValidPassword = (userpass, password) => {
