@@ -4,6 +4,8 @@
   "description": "Minimal setup for a basic Express server app.",
   "main": "server.js",
   "scripts": {
+    "start": "node server.js",
+    "debug": "nodemon --inspect server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
