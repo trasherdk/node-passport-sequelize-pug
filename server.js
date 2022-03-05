@@ -1,6 +1,6 @@
 const path = require('path');
 require('dotenv').config();
-require('./config')
+const config = require('./config')
 const express = require('express');
 const app = express();
 const passport = require('passport');
@@ -42,6 +42,7 @@ app.set('view engine', '.hbs');
 
 // Models
 const models = require('./models');
+// const { config } = require('dotenv');
 
 // Express static assets
 app.use(express.static("public"));
@@ -56,10 +57,12 @@ require('./config/passport/passport.js')(passport, models.user);
 models.sequelize
   .sync()
   .then(function () {
-    console.log('Database Connected');
+    console.log('Database Connected %s:%s', config.host, config.port);
 
-    app.listen(3000, function (err) {
-      if (!err) console.log('Connected at http://localhost:3000');
+    const server_host = process.env.SERVER_HOST || '127.0.0.1'
+    const server_port = process.env.SERVER_PORT || 3000
+    app.listen(server_port, server_host, function (err) {
+      if (!err) console.log(`Connected at http://${server_host}:${server_port}`);
       else console.log(err);
     });
   })
